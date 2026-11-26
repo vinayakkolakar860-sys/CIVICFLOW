@@ -1,0 +1,515 @@
+/* ==========================================================================
+   CIVICFLOW — Election Management Suite (CEMS)
+   Enterprise JavaFX 21 Design System Stylesheet
+   ========================================================================== */
+
+.root {
+    -fx-font-family: "Segoe UI", "Inter", "System", sans-serif;
+    -fx-font-size: 13px;
+    -fx-background-color: #F5F7FB;
+    -fx-text-fill: #182230;
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+    -fx-background-color: #111827;
+    -fx-min-width: 248px;
+    -fx-pref-width: 248px;
+    -fx-max-width: 248px;
+    -fx-padding: 18 14 18 14;
+}
+
+.sidebar-brand-title {
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 0.8px;
+}
+
+.sidebar-brand-sub {
+    -fx-text-fill: #94A3B8;
+    -fx-font-size: 11px;
+}
+
+.sidebar-section-label {
+    -fx-text-fill: #64748B;
+    -fx-font-size: 10.5px;
+    -fx-font-weight: bold;
+    -fx-padding: 12 10 4 10;
+}
+
+.nav-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #CBD5E1;
+    -fx-font-size: 13px;
+    -fx-font-weight: 500;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 10 14 10 14;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-max-width: Infinity;
+}
+
+.nav-button:hover {
+    -fx-background-color: #1F2937;
+    -fx-text-fill: #FFFFFF;
+}
+
+.nav-button-active {
+    -fx-background-color: #2855D9;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+}
+
+.nav-button-active:hover {
+    -fx-background-color: #2147B8;
+}
+
+/* ---------- Top Header Bar ---------- */
+.topbar {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E2E8F0;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 12 24 12 24;
+    -fx-min-height: 62px;
+}
+
+.page-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #182230;
+}
+
+.page-subtitle {
+    -fx-font-size: 12.5px;
+    -fx-text-fill: #697586;
+}
+
+/* ---------- Footer ---------- */
+.app-footer {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E2E8F0;
+    -fx-border-width: 1 0 0 0;
+    -fx-padding: 8 24 8 24;
+}
+
+.footer-text {
+    -fx-font-size: 11.5px;
+    -fx-text-fill: #697586;
+}
+
+/* ---------- Demo Banner ---------- */
+.demo-banner {
+    -fx-background-color: #FEF3C7;
+    -fx-border-color: #F59E0B;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 8 14 8 14;
+}
+
+.demo-banner-text {
+    -fx-text-fill: #92400E;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+/* ---------- Cards ---------- */
+.card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 12;
+    -fx-border-color: #E5EAF2;
+    -fx-border-radius: 12;
+    -fx-border-width: 1;
+    -fx-padding: 18;
+    -fx-effect: dropshadow(gaussian, rgba(17, 24, 39, 0.05), 10, 0, 0, 2);
+}
+
+.stat-card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 12;
+    -fx-border-color: #E5EAF2;
+    -fx-border-radius: 12;
+    -fx-border-width: 1;
+    -fx-padding: 16 18 16 18;
+    -fx-effect: dropshadow(gaussian, rgba(17, 24, 39, 0.04), 8, 0, 0, 2);
+}
+
+.stat-value {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #182230;
+}
+
+.stat-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #697586;
+    -fx-font-weight: 600;
+}
+
+.section-heading {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #182230;
+}
+
+/* ---------- Buttons ---------- */
+.btn-primary {
+    -fx-background-color: #2855D9;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+    -fx-padding: 8 16 8 16;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-min-height: 36px;
+}
+
+.btn-primary:hover {
+    -fx-background-color: #1E44B8;
+}
+
+.btn-primary:disabled {
+    -fx-opacity: 0.55;
+}
+
+.btn-accent {
+    -fx-background-color: #17A6A1;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+    -fx-padding: 8 16 8 16;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-min-height: 36px;
+}
+
+.btn-accent:hover {
+    -fx-background-color: #128985;
+}
+
+.btn-success {
+    -fx-background-color: #16A36A;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+    -fx-padding: 8 16 8 16;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-min-height: 36px;
+}
+
+.btn-success:hover {
+    -fx-background-color: #128757;
+}
+
+.btn-warning {
+    -fx-background-color: #E9A23B;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+    -fx-padding: 8 16 8 16;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-min-height: 36px;
+}
+
+.btn-warning:hover {
+    -fx-background-color: #D28B24;
+}
+
+.btn-danger {
+    -fx-background-color: #DC4C4C;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-weight: bold;
+    -fx-padding: 8 16 8 16;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+    -fx-min-height: 36px;
+}
+
+.btn-danger:hover {
+    -fx-background-color: #BF3838;
+}
+
+.btn-secondary {
+    -fx-background-color: #FFFFFF;
+    -fx-text-fill: #182230;
+    -fx-border-color: #CBD5E1;
+    -fx-border-width: 1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-font-weight: 600;
+    -fx-padding: 8 14 8 14;
+    -fx-cursor: hand;
+    -fx-min-height: 36px;
+}
+
+.btn-secondary:hover {
+    -fx-background-color: #F1F5F9;
+}
+
+.btn-sm {
+    -fx-padding: 5 10 5 10;
+    -fx-font-size: 12px;
+    -fx-min-height: 28px;
+}
+
+/* ---------- Form Controls ---------- */
+.text-field, .password-field, .text-area, .combo-box, .date-picker {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #CBD5E1;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-padding: 6 10 6 10;
+    -fx-min-height: 36px;
+}
+
+.text-field:focused, .password-field:focused, .text-area:focused, .combo-box:focused, .date-picker:focused {
+    -fx-border-color: #2855D9;
+    -fx-border-width: 1.5;
+}
+
+.field-error {
+    -fx-border-color: #DC4C4C !important;
+    -fx-border-width: 1.5 !important;
+}
+
+.error-label {
+    -fx-text-fill: #DC4C4C;
+    -fx-font-size: 11.5px;
+    -fx-font-weight: 600;
+}
+
+.form-label {
+    -fx-font-size: 12.5px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #334155;
+}
+
+/* ---------- Status Badges ---------- */
+.badge {
+    -fx-padding: 3 10 3 10;
+    -fx-background-radius: 999;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+}
+
+.badge-success {
+    -fx-background-color: #DCFCE7;
+    -fx-text-fill: #15803D;
+}
+
+.badge-primary {
+    -fx-background-color: #DBEAFE;
+    -fx-text-fill: #1D4ED8;
+}
+
+.badge-accent {
+    -fx-background-color: #CCFBF1;
+    -fx-text-fill: #0F766E;
+}
+
+.badge-warning {
+    -fx-background-color: #FEF3C7;
+    -fx-text-fill: #B45309;
+}
+
+.badge-danger {
+    -fx-background-color: #FEE2E2;
+    -fx-text-fill: #B91C1C;
+}
+
+.badge-neutral {
+    -fx-background-color: #E2E8F0;
+    -fx-text-fill: #475569;
+}
+
+/* ---------- Tables ---------- */
+.table-view {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #E5EAF2;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-table-cell-border-color: #EEF2F7;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #F8FAFC;
+    -fx-background-radius: 10 10 0 0;
+    -fx-border-color: #E5EAF2;
+    -fx-border-width: 0 0 1 0;
+}
+
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-size: 38px;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #475569;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 0 8 0 8;
+}
+
+.table-view .table-row-cell {
+    -fx-cell-size: 40px;
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: transparent;
+}
+
+.table-view .table-row-cell:odd {
+    -fx-background-color: #FAFBFD;
+}
+
+.table-view .table-row-cell:selected {
+    -fx-background-color: #E8F0FE;
+    -fx-text-fill: #182230;
+}
+
+.table-view .table-row-cell:selected .text {
+    -fx-fill: #182230;
+}
+
+.table-view .table-cell {
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 0 10 0 10;
+}
+
+/* ---------- Login Screen (Light Theme Only) ---------- */
+.login-root {
+    -fx-background-color: #F8FAFC;
+    -fx-alignment: CENTER;
+}
+
+.login-card {
+    -fx-background-color: #FFFFFF;
+    -fx-background-radius: 20;
+    -fx-border-color: #E2E8F0;
+    -fx-border-radius: 20;
+    -fx-padding: 38 34;
+    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.05), 24, 0, 0, 8);
+}
+
+.login-brand-title {
+    -fx-font-family: "Segoe UI", system-ui, sans-serif;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0F172A;
+}
+
+.login-title {
+    -fx-font-family: "Segoe UI", system-ui, sans-serif;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1E293B;
+}
+
+.login-sub {
+    -fx-font-family: "Segoe UI", system-ui, sans-serif;
+    -fx-font-size: 13.5px;
+    -fx-text-fill: #64748B;
+}
+
+.login-toggle-btn {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-text-fill: #64748B;
+    -fx-font-size: 11.5px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-padding: 4 8;
+}
+
+.login-toggle-btn:hover {
+    -fx-text-fill: #2563EB;
+}
+
+/* ---------- Voting Booth Cards ---------- */
+.candidate-ballot-card {
+    -fx-background-color: #FFFFFF;
+    -fx-border-color: #CBD5E1;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
+    -fx-padding: 16;
+    -fx-cursor: hand;
+}
+
+.candidate-ballot-card:hover {
+    -fx-border-color: #2855D9;
+    -fx-background-color: #F8FAFF;
+}
+
+.candidate-ballot-card-selected {
+    -fx-border-color: #2855D9;
+    -fx-border-width: 2.5;
+    -fx-background-color: #EFF4FF;
+}
+
+/* ---------- Charts ---------- */
+.chart-title {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #182230;
+}
+
+.default-color0.chart-bar { -fx-bar-fill: #2855D9; }
+.default-color1.chart-bar { -fx-bar-fill: #17A6A1; }
+.default-color2.chart-bar { -fx-bar-fill: #16A36A; }
+.default-color3.chart-bar { -fx-bar-fill: #E9A23B; }
+.default-color4.chart-bar { -fx-bar-fill: #DC4C4C; }
+
+/* ---------- ScrollPane & ScrollBars ---------- */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical, .scroll-bar:horizontal {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical .thumb, .scroll-bar:horizontal .thumb {
+    -fx-background-color: #CBD5E1;
+    -fx-background-radius: 999;
+}
+
+.scroll-bar:vertical .thumb:hover, .scroll-bar:horizontal .thumb:hover {
+    -fx-background-color: #94A3B8;
+}
+
+.scroll-bar .increment-button, .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.scroll-bar .increment-arrow, .scroll-bar .decrement-arrow {
+    -fx-shape: " ";
+    -fx-padding: 0;
+}
+
+/* ---------- Pie Chart Palette ---------- */
+.default-color0.chart-pie { -fx-pie-color: #2855D9; }
+.default-color1.chart-pie { -fx-pie-color: #17A6A1; }
+.default-color2.chart-pie { -fx-pie-color: #16A36A; }
+.default-color3.chart-pie { -fx-pie-color: #E9A23B; }
+.default-color4.chart-pie { -fx-pie-color: #DC4C4C; }
+.default-color5.chart-pie { -fx-pie-color: #8B5CF6; }
+.default-color6.chart-pie { -fx-pie-color: #EC4899; }
+.default-color7.chart-pie { -fx-pie-color: #06B6D4; }
+.default-color8.chart-pie { -fx-pie-color: #F97316; }
+.default-color9.chart-pie { -fx-pie-color: #64748B; }
+
+.chart-pie-label {
+    -fx-fill: #334155;
+    -fx-font-size: 11px;
+    -fx-font-weight: 500;
+}
+
+/* ---------- Loading Overlay ---------- */
+.loading-overlay {
+    -fx-background-color: rgba(245, 247, 251, 0.78);
+}

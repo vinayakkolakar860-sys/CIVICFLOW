@@ -1,0 +1,26 @@
+# ==============================================================================
+# CIVICFLOW — Election Management Suite (CEMS)
+# Configuration Template
+# ==============================================================================
+# Copy this file to config/application.properties (which is gitignored)
+# OR provide values via environment variables:
+#   CIVICFLOW_DB_URL
+#   CIVICFLOW_DB_USER
+#   CIVICFLOW_DB_PASSWORD
+#
+# Environment variables take precedence over values in application.properties.
+# WARNING: Never commit config/application.properties with real credentials.
+# ==============================================================================
+
+db.url=jdbc:mysql://localhost:3306/civicflow_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+db.user=root
+db.password=CHANGE_ME_LOCAL_PASSWORD
+db.pool.maxSize=10
+db.pool.minIdle=2
+db.pool.connectionTimeoutMs=10000
+
+app.name=CIVICFLOW — Election Management Suite (CEMS)
+app.version=1.0.0
+app.demoMode=true
+app.uploadsDir=uploads
+app.exportsDir=exports

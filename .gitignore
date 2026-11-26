@@ -1,0 +1,41 @@
+# Build artifacts
+target/
+*.jar
+*.war
+*.ear
+*.class
+
+# Local secrets & configuration
+config/application.properties
+.env
+*.local.properties
+
+# Logs & runtime uploads
+logs/
+*.log
+uploads/
+exports/
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Personal study & viva notes
+*VIVA*
+*EVALUATION*
+*PROJECT_REPORT*
+*.notes.md
+docs/
+CHANGELOG.md
+
+# Release archive
+*.zip

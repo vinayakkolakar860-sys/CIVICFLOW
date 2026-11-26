@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CIVICFLOW — Election Management Suite (CEMS)</title>
+<style>
+  :root {
+    --bg: #F5F7FB; --sidebar: #111827; --primary: #2855D9; --accent: #17A6A1;
+    --success: #16A36A; --warning: #E9A23B; --danger: #DC4C4C;
+    --text: #182230; --muted: #697586; --card: #FFFFFF; --border: #E2E8F0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Segoe UI", system-ui, -apple-system, sans-serif; }
+  body { background: var(--bg); color: var(--text); min-height: 100vh; }
+  .hidden { display: none !important; }
+
+  /* Light Theme Login View */
+  .login-wrap {
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    background: #F8FAFC;
+    padding: 24px;
+  }
+  .login-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 20px;
+    padding: 40px 36px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05), 0 8px 10px -6px rgba(15, 23, 42, 0.03);
+    text-align: center;
+  }
+  .login-header {
+    margin-bottom: 26px;
+  }
+  .login-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+  .login-brand-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #0F172A;
+    letter-spacing: 0.5px;
+    margin: 0;
+  }
+  .login-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1E293B;
+    margin: 8px 0 4px;
+  }
+  .login-sub {
+    font-size: 14px;
+    color: #64748B;
+    margin: 0;
+  }
+  .login-form {
+    text-align: left;
+  }
+  .login-form .form-group {
+    margin-bottom: 18px;
+  }
+  .login-form .form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 6px;
+  }
+  .input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .input-wrapper input {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid #CBD5E1;
+    border-radius: 10px;
+    font-size: 14px;
+    color: #1E293B;
+    background: #FFFFFF;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .input-wrapper input.has-toggle {
+    padding-right: 44px;
+  }
+  .input-wrapper input:focus {
+    outline: none;
+    border-color: #2563EB;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+  }
+  .input-wrapper input.input-error {
+    border-color: #EF4444;
+  }
+  .input-wrapper input.input-error:focus {
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
+  }
+  .toggle-pass-btn {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #94A3B8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    border-radius: 6px;
+    transition: color 0.15s ease;
+  }
+  .toggle-pass-btn:hover {
+    color: #475569;
+  }
+  .toggle-pass-btn:focus {
+    outline: none;
+    color: #2563EB;
+  }
+  .field-error-text {
+    font-size: 12px;
+    color: #DC2626;
+    margin-top: 4px;
+    display: none;
+    font-weight: 500;
+  }
+  .field-error-text.visible {
+    display: block;
+  }
+  .login-options-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+  }
+  .remember-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #475569;
+    cursor: pointer;
+    user-select: none;
+  }
+  .remember-label input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    border: 1px solid #CBD5E1;
+    cursor: pointer;
+    accent-color: #2563EB;
+    margin: 0;
+  }
+  .btn-login-submit {
+    width: 100%;
+    background: #2563EB;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 18px;
+    font-size: 14.5px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background-color 0.15s ease, transform 0.05s ease;
+  }
+  .btn-login-submit:hover {
+    background: #1D4ED8;
+  }
+  .btn-login-submit:active {
+    transform: scale(0.99);
+  }
+  .btn-login-submit:disabled {
+    background: #93C5FD;
+    cursor: not-allowed;
+  }
+  .login-banner-error {
+    background: #FEF2F2;
+    border: 1px solid #FCA5A5;
+    color: #991B1B;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 18px;
+    display: none;
+    align-items: center;
+    gap: 8px;
+    text-align: left;
+  }
+  .login-banner-error.visible {
+    display: flex;
+  }
+  .spinner-icon {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-radius: 50%;
+    border-top-color: #FFFFFF;
+    animation: spin 0.8s linear infinite;
+    display: inline-block;
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  @media (max-width: 480px) {
+    .login-wrap {
+      padding: 16px;
+    }
+    .login-card {
+      padding: 28px 20px;
+      border-radius: 16px;
+      box-shadow: none;
+    }
+    .login-title {
+      font-size: 22px;
+    }
+  }
+
+  /* App Shell */
+  .shell { display: flex; min-height: 100vh; }
+  .sidebar { width: 252px; background: var(--sidebar); color: #CBD5E1; padding: 18px 14px; display: flex; flex-direction: column; gap: 4px; flex-shrink: 0; }
+  .sb-section { font-size: 10.5px; font-weight: 700; color: #64748B; padding: 14px 10px 4px; letter-spacing: 0.6px; }
+  .nav-btn { background: transparent; border: none; color: #CBD5E1; text-align: left; padding: 10px 14px; border-radius: 8px; cursor: pointer; font-size: 13.5px; font-weight: 500; transition: 0.15s; }
+  .nav-btn:hover { background: #1F2937; color: #fff; }
+  .nav-btn.active { background: var(--primary); color: #fff; font-weight: 600; }
+  .main-col { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+  .topbar { background: var(--card); border-bottom: 1px solid var(--border); padding: 14px 26px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .topbar h2 { font-size: 20px; }
+  .topbar small { color: var(--muted); font-size: 12.5px; }
+  .content { flex: 1; padding: 22px 26px; display: flex; flex-direction: column; gap: 18px; overflow-x: auto; }
+  .footer { background: var(--card); border-top: 1px solid var(--border); padding: 10px 26px; display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
+
+  /* Cards, Inputs, Buttons, Tables */
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px; box-shadow: 0 2px 8px rgba(17,24,39,0.04); }
+  .card h3 { font-size: 15px; margin-bottom: 12px; }
+  .demo-banner { background: #FEF3C7; border: 1px solid #F59E0B; border-radius: 8px; padding: 9px 14px; font-size: 12.5px; color: #92400E; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+  .demo-tag { background: #D97706; color: #fff; font-size: 10px; padding: 2px 8px; border-radius: 4px; font-weight: 700; }
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; }
+  .kpi { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+  .kpi-bar { width: 34px; height: 4px; border-radius: 3px; margin-bottom: 10px; }
+  .kpi-val { font-size: 26px; font-weight: 700; }
+  .kpi-lbl { font-size: 12px; color: var(--muted); font-weight: 600; margin-top: 2px; }
+
+  .form-group { margin-bottom: 14px; }
+  .form-group label { display: block; font-size: 12.5px; font-weight: 600; color: #334155; margin-bottom: 5px; }
+  input, select, textarea { width: 100%; padding: 9px 11px; border: 1px solid #CBD5E1; border-radius: 8px; font-size: 13px; background: #fff; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 2px rgba(40,85,217,0.14); }
+  .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 16px; }
+
+  .btn { border: none; border-radius: 8px; padding: 8px 15px; font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+  .btn-sm { padding: 5px 10px; font-size: 12px; }
+  .btn-primary { background: var(--primary); color: #fff; }
+  .btn-primary:hover { background: #1E44B8; }
+  .btn-accent { background: var(--accent); color: #fff; }
+  .btn-success { background: var(--success); color: #fff; }
+  .btn-warning { background: var(--warning); color: #fff; }
+  .btn-danger { background: var(--danger); color: #fff; }
+  .btn-secondary { background: #fff; color: var(--text); border: 1px solid #CBD5E1; }
+  .btn-secondary:hover { background: #F1F5F9; }
+
+  .badge { display: inline-block; padding: 3px 9px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+  .b-success { background: #DCFCE7; color: #15803D; }
+  .b-primary { background: #DBEAFE; color: #1D4ED8; }
+  .b-accent { background: #CCFBF1; color: #0F766E; }
+  .b-warning { background: #FEF3C7; color: #B45309; }
+  .b-danger { background: #FEE2E2; color: #B91C1C; }
+  .b-neutral { background: #E2E8F0; color: #475569; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; background: #F8FAFC; color: #475569; padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: 12px; }
+  td { padding: 10px 12px; border-bottom: 1px solid #EEF2F7; vertical-align: middle; }
+  tr:hover td { background: #F8FAFF; }
+
+  .alert { padding: 10px 14px; border-radius: 8px; font-size: 13px; font-weight: 600; margin-bottom: 12px; }
+  .alert-err { background: #FEE2E2; color: #B91C1C; }
+  .alert-ok { background: #DCFCE7; color: #15803D; }
+  .bar-row { margin-bottom: 10px; }
+  .bar-label { display: flex; justify-content: space-between; font-size: 12.5px; margin-bottom: 4px; font-weight: 600; }
+  .bar-track { background: #E2E8F0; border-radius: 999px; height: 10px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--primary), var(--accent)); }
+  .ballot-card { border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 16px; cursor: pointer; display: flex; gap: 14px; align-items: flex-start; margin-bottom: 10px; }
+  .ballot-card.selected { border-color: var(--primary); background: #EFF4FF; border-width: 2px; }
+  .demo-creds { background: #F8FAFC; border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-top: 16px; font-size: 12px; color: #475569; line-height: 1.6; }
+  .demo-creds button { margin: 4px 4px 0 0; }
+</style>
+</head>
+<body>
+
+<!-- LOGIN VIEW -->
+<div id="loginView" class="login-wrap">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="login-logo">
+        <svg width="44" height="44" viewBox="0 0 64 64">
+          <defs>
+            <linearGradient id="cfGradLight" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#2563EB"/>
+              <stop offset="100%" stop-color="#0EA5E9"/>
+            </linearGradient>
+          </defs>
+          <rect x="2" y="2" width="60" height="60" rx="14" fill="url(#cfGradLight)"/>
+          <polyline points="18,33 27,42 46,20" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h1 class="login-brand-name">CIVICFLOW</h1>
+      <h2 class="login-title">Welcome Back</h2>
+      <p class="login-sub">Sign in to continue.</p>
+    </div>
+
+    <div id="loginErr" class="login-banner-error">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      </svg>
+      <span id="loginErrMsg">Invalid credentials.</span>
+    </div>
+
+    <div class="login-form">
+      <div class="form-group">
+        <label for="loginUser">Username</label>
+        <div class="input-wrapper">
+          <input id="loginUser" type="text" placeholder="Username (e.g. superadmin)" autocomplete="username" autocapitalize="none" spellcheck="false">
+        </div>
+        <div id="loginUserErr" class="field-error-text">Please enter your username.</div>
+      </div>
+
+      <div class="form-group">
+        <label for="loginPass">Password</label>
+        <div class="input-wrapper">
+          <input id="loginPass" class="has-toggle" type="password" placeholder="Password (e.g. Abc123)" autocomplete="current-password">
+          <button type="button" id="togglePassBtn" class="toggle-pass-btn" title="Show password" aria-label="Show password" onclick="togglePasswordVisibility()">
+            <svg id="eyeIconOpen" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+            <svg id="eyeIconClosed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+              <line x1="1" y1="1" x2="23" y2="23"></line>
+            </svg>
+          </button>
+        </div>
+        <div id="loginPassErr" class="field-error-text">Please enter your password.</div>
+      </div>
+
+      <div class="login-options-row">
+        <label class="remember-label">
+          <input type="checkbox" id="rememberMe">
+          <span>Remember me</span>
+        </label>
+      </div>
+
+      <button type="button" id="loginSubmitBtn" class="btn-login-submit" onclick="doLogin()">
+        <span id="loginBtnText">Sign In</span>
+      </button>
+
+      <div style="margin-top:14px;text-align:center;font-size:12px;color:#64748B;">
+        Demo Credentials: <span style="font-weight:600;color:#1E293B;">superadmin</span> &bull; <span style="font-weight:600;color:#1E293B;">Abc123</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN SHELL -->
+<div id="appShell" class="shell hidden">
+  <aside class="sidebar">
+    <div class="brand-row" style="padding:4px 8px 14px;">
+      <svg width="34" height="34" viewBox="0 0 64 64">
+        <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#cfGrad)"/>
+        <polyline points="16,31 27,41 48,19" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div><div style="font-weight:700;color:#fff;font-size:17px;">CIVICFLOW</div><div style="font-size:11px;color:#94A3B8;">Live Suite • CEMS</div></div>
+    </div>
+    <div id="navContainer" style="display:flex;flex-direction:column;gap:4px;flex:1;"></div>
+    <button class="nav-btn" style="color:#FCA5A5;margin-top:auto;" onclick="doLogout()">Sign Out</button>
+  </aside>
+  <div class="main-col">
+    <header class="topbar">
+      <div><h2 id="pageTitle">Dashboard</h2><small id="pageSub">Live MySQL civicflow_db</small></div>
+      <div class="row">
+        <span id="roleBadge" class="badge b-primary"></span>
+        <strong id="userLabel" style="font-size:13px;"></strong>
+        <button class="btn btn-secondary btn-sm" onclick="nav('change_password')">Change Password</button>
+        <button class="btn btn-danger btn-sm" onclick="doLogout()">Logout</button>
+      </div>
+    </header>
+    <main id="mainContent" class="content"></main>
+    <footer class="footer">
+      <strong>CIVICFLOW Election Management Suite</strong>
+      <span>Educational Election Simulation Platform • Core Java Embedded Live Server • MySQL 8</span>
+    </footer>
+  </div>
+</div>
+
+<script>
+let currentUser = null;
+let selectedCandidateId = null;
+
+function esc(s) { return String(s ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+function badge(st) {
+  const u = String(st||'').toUpperCase();
+  let cls = 'b-neutral';
+  if (['ACTIVE','APPROVED','OPEN','SUCCESS','SUBMITTED'].includes(u)) cls = 'b-success';
+  else if (['PUBLISHED','SUPER_ADMIN'].includes(u)) cls = 'b-primary';
+  else if (['SCHEDULED','ELECTION_ADMIN'].includes(u)) cls = 'b-accent';
+  else if (['PENDING','DRAFT','CLOSED'].includes(u)) cls = 'b-warning';
+  else if (['REJECTED','SUSPENDED','LOCKED','CANCELLED','FAILURE','DENIED'].includes(u)) cls = 'b-danger';
+  return `<span class="badge ${cls}">${esc(u)}</span>`;
+}
+function togglePasswordVisibility() {
+  const passEl = document.getElementById('loginPass');
+  const eyeOpen = document.getElementById('eyeIconOpen');
+  const eyeClosed = document.getElementById('eyeIconClosed');
+  const btn = document.getElementById('togglePassBtn');
+  if (passEl.type === 'password') {
+    passEl.type = 'text';
+    eyeOpen.style.display = 'none';
+    eyeClosed.style.display = 'block';
+    btn.title = 'Hide password';
+    btn.setAttribute('aria-label', 'Hide password');
+  } else {
+    passEl.type = 'password';
+    eyeOpen.style.display = 'block';
+    eyeClosed.style.display = 'none';
+    btn.title = 'Show password';
+    btn.setAttribute('aria-label', 'Show password');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  try {
+    const savedUser = localStorage.getItem('civicflow_remember_user');
+    if (savedUser) {
+      const userEl = document.getElementById('loginUser');
+      const remEl = document.getElementById('rememberMe');
+      if (userEl && remEl) {
+        userEl.value = savedUser;
+        remEl.checked = true;
+      }
+    }
+  } catch (e) {}
+
+  const userEl = document.getElementById('loginUser');
+  const passEl = document.getElementById('loginPass');
+  if (userEl) userEl.addEventListener('keydown', (e) => { if (e.key === 'Enter') doLogin(); });
+  if (passEl) passEl.addEventListener('keydown', (e) => { if (e.key === 'Enter') doLogin(); });
+});
+
+const API_BASE = (window.location.protocol === 'http:' || window.location.protocol === 'https:') && (window.location.port === '8080' || window.location.hostname.includes('trycloudflare.com'))
+  ? '' 
+  : 'http://localhost:8080';
+
+async function api(url, opts={}) {
+  const fullUrl = url.startsWith('http') ? url : (API_BASE + url);
+  const token = localStorage.getItem('civicflow_token');
+  const headers = { 'Content-Type': 'application/json', ...opts.headers };
+  if (token) headers['X-Session-ID'] = token;
+  const res = await fetch(fullUrl, { credentials: 'include', ...opts, headers });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || 'Request failed');
+  return data;
+}
+
+async function doLogin() {
+  const userEl = document.getElementById('loginUser');
+  const passEl = document.getElementById('loginPass');
+  const userErrEl = document.getElementById('loginUserErr');
+  const passErrEl = document.getElementById('loginPassErr');
+  const bannerErr = document.getElementById('loginErr');
+  const bannerMsg = document.getElementById('loginErrMsg');
+  const submitBtn = document.getElementById('loginSubmitBtn');
+  const btnText = document.getElementById('loginBtnText');
+  const remEl = document.getElementById('rememberMe');
+
+  bannerErr.classList.remove('visible');
+  userErrEl.classList.remove('visible');
+  passErrEl.classList.remove('visible');
+  userEl.classList.remove('input-error');
+  passEl.classList.remove('input-error');
+
+  const u = userEl.value.trim();
+  const p = passEl.value;
+
+  let hasError = false;
+  if (!u) {
+    userErrEl.classList.add('visible');
+    userEl.classList.add('input-error');
+    hasError = true;
+  }
+  if (!p) {
+    passErrEl.classList.add('visible');
+    passEl.classList.add('input-error');
+    hasError = true;
+  }
+  if (hasError) return;
+
+  submitBtn.disabled = true;
+  btnText.innerHTML = '<span class="spinner-icon"></span> Signing In...';
+
+  try {
+    currentUser = await api('/api/auth/login', { method:'POST', body: JSON.stringify({username:u, password:p}) });
+    if (currentUser && currentUser.sessionId) {
+      localStorage.setItem('civicflow_token', currentUser.sessionId);
+    }
+    
+    try {
+      if (remEl && remEl.checked) {
+        localStorage.setItem('civicflow_remember_user', u);
+      } else {
+        localStorage.removeItem('civicflow_remember_user');
+      }
+    } catch (e) {}
+
+    passEl.value = '';
+    enterApp();
+  } catch (e) {
+    bannerMsg.textContent = e.message || 'Invalid username or password.';
+    bannerErr.classList.add('visible');
+  } finally {
+    submitBtn.disabled = false;
+    btnText.textContent = 'Sign In';
+  }
+}
+
+async function doLogout() {
+  await api('/api/auth/logout', { method:'POST' }).catch(()=>{});
+  localStorage.removeItem('civicflow_token');
+  currentUser = null;
+  document.getElementById('appShell').classList.add('hidden');
+  document.getElementById('loginView').classList.remove('hidden');
+}
+
+function enterApp() {
+  document.getElementById('loginView').classList.add('hidden');
+  document.getElementById('appShell').classList.remove('hidden');
+  document.getElementById('roleBadge').textContent = currentUser.role;
+  document.getElementById('userLabel').textContent = `${currentUser.fullName} (${currentUser.username})`;
+  buildNav();
+  if (currentUser.role === 'VOTER') nav('voter_dashboard');
+  else nav('dashboard');
+}
+
+function buildNav() {
+  const navEl = document.getElementById('navContainer');
+  const isAdmin = currentUser.role !== 'VOTER';
+  let html = '';
+  if (isAdmin) {
+    html += `<div class="sb-section">OVERVIEW</div>
+      <button class="nav-btn" data-r="dashboard" onclick="nav('dashboard')">Admin Dashboard</button>
+      <div class="sb-section">ELECTION OPERATIONS</div>
+      <button class="nav-btn" data-r="elections" onclick="nav('elections')">Elections</button>
+      <button class="nav-btn" data-r="voters" onclick="nav('voters')">Voters</button>
+      <button class="nav-btn" data-r="candidates" onclick="nav('candidates')">Candidates</button>
+      <button class="nav-btn" data-r="parties" onclick="nav('parties')">Parties</button>
+      <button class="nav-btn" data-r="constituencies" onclick="nav('constituencies')">Constituencies</button>
+      <div class="sb-section">ANALYTICS & GOVERNANCE</div>
+      <button class="nav-btn" data-r="results" onclick="nav('results')">Results Dashboard</button>
+      <button class="nav-btn" data-r="reports" onclick="nav('reports')">Reports & Exports</button>
+      <button class="nav-btn" data-r="audit" onclick="nav('audit')">Audit Logs</button>`;
+    if (currentUser.role === 'SUPER_ADMIN') {
+      html += `<div class="sb-section">SYSTEM</div>
+        <button class="nav-btn" data-r="settings" onclick="nav('settings')">Settings & Admins</button>`;
+    }
+  } else {
+    html += `<div class="sb-section">VOTER PORTAL</div>
+      <button class="nav-btn" data-r="voter_dashboard" onclick="nav('voter_dashboard')">Voter Dashboard</button>
+      <button class="nav-btn" data-r="results" onclick="nav('results')">Published Results</button>`;
+  }
+  html += `<div class="sb-section">ACCOUNT</div>
+    <button class="nav-btn" data-r="change_password" onclick="nav('change_password')">Change Password</button>`;
+  navEl.innerHTML = html;
+}
+
+function setHeader(title, sub, route) {
+  document.getElementById('pageTitle').textContent = title;
+  document.getElementById('pageSub').textContent = sub;
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.r === route));
+}
+
+async function nav(route) {
+  const mc = document.getElementById('mainContent');
+  mc.innerHTML = '<div class="card">Loading live data from MySQL...</div>';
+  try {
+    if (route === 'dashboard') await renderDashboard();
+    else if (route === 'voter_dashboard') await renderVoterDashboard();
+    else if (route === 'voters') await renderVoters();
+    else if (route === 'candidates') await renderCandidates();
+    else if (route === 'parties') await renderParties();
+    else if (route === 'constituencies') await renderConstituencies();
+    else if (route === 'elections') await renderElections();
+    else if (route === 'results') await renderResults();
+    else if (route === 'reports') await renderReports();
+    else if (route === 'audit') await renderAudit();
+    else if (route === 'settings') await renderSettings();
+    else if (route === 'change_password') await renderChangePassword();
+  } catch (e) {
+    mc.innerHTML = `<div class="alert alert-err">${esc(e.message)}</div>`;
+  }
+}
+
+function barChartHtml(title, mapObj) {
+  const entries = Object.entries(mapObj || {});
+  const max = Math.max(1, ...entries.map(e => Number(e[1]) || 0));
+  return `<div class="card"><h3>${esc(title)}</h3>` +
+    (entries.length ? entries.map(([k,v]) => `
+      <div class="bar-row">
+        <div class="bar-label"><span>${esc(k)}</span><span>${v}</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:${Math.round((v/max)*100)}%"></div></div>
+      </div>`).join('') : '<p style="color:var(--muted)">No data yet</p>') + '</div>';
+}
+
+async function renderDashboard() {
+  setHeader('Admin Dashboard', 'Live MySQL KPIs, distributions, and recent governance audit trail', 'dashboard');
+  const d = await api('/api/dashboard');
+  document.getElementById('mainContent').innerHTML = `
+    <div class="demo-banner"><span class="demo-tag">DEMO DATA</span> All statistics below are live SQL aggregations from MySQL civicflow_db.</div>
+    <div class="kpi-grid">
+      <div class="kpi"><div class="kpi-bar" style="background:#2855D9"></div><div class="kpi-val">${d.totalVoters}</div><div class="kpi-lbl">Total Voters</div></div>
+      <div class="kpi"><div class="kpi-bar" style="background:#16A36A"></div><div class="kpi-val">${d.verifiedVoters}</div><div class="kpi-lbl">Verified Voters</div></div>
+      <div class="kpi"><div class="kpi-bar" style="background:#E9A23B"></div><div class="kpi-val">${d.pendingVoters}</div><div class="kpi-lbl">Pending Approvals</div></div>
+      <div class="kpi"><div class="kpi-bar" style="background:#17A6A1"></div><div class="kpi-val">${d.totalCandidates}</div><div class="kpi-lbl">Candidates</div></div>
+      <div class="kpi"><div class="kpi-bar" style="background:#6366F1"></div><div class="kpi-val">${d.totalConstituencies}</div><div class="kpi-lbl">Constituencies</div></div>
+      <div class="kpi"><div class="kpi-bar" style="background:#2855D9"></div><div class="kpi-val">${d.totalElections}</div><div class="kpi-lbl">Total Elections</div></div>
+      <div class="kpi"><div class="kpi-bar" style="background:#16A36A"></div><div class="kpi-val">${d.openElections}</div><div class="kpi-lbl">Open Simulations</div></div>
+      <div class="kpi"><div class="kpi-bar" style="background:#0EA5E9"></div><div class="kpi-val">${d.publishedResults}</div><div class="kpi-lbl">Published Results</div></div>
+    </div>
+    <div class="grid-2">
+      ${barChartHtml('Elections by Lifecycle Status', d.electionsByStatus)}
+      ${barChartHtml('Voters by Constituency', d.votersByConstituency)}
+      ${barChartHtml('Candidates by Fictional Party', d.candidatesByParty)}
+      ${barChartHtml('Simulated Participation by Election', d.participationByElection)}
+    </div>
+    <div class="card">
+      <h3>Recent Audit Trail</h3>
+      <table><thead><tr><th>Timestamp</th><th>Actor</th><th>Module</th><th>Action</th><th>Details</th><th>Status</th></tr></thead>
+      <tbody>${d.recentActivity.map(a => `<tr><td>${esc(a.timestamp)}</td><td>${esc(a.username)}</td><td>${esc(a.module)}</td><td>${esc(a.action)}</td><td>${esc(a.details)}</td><td>${badge(a.status)}</td></tr>`).join('')}</tbody></table>
+    </div>`;
+}
+
+async function renderVoterDashboard() {
+  setHeader('Voter Portal Dashboard', 'Eligible simulated elections, participation status, and published results', 'voter_dashboard');
+  const data = await api('/api/voter/portal');
+  const v = data.voter;
+  document.getElementById('mainContent').innerHTML = `
+    <div class="demo-banner"><span class="demo-tag">SIMULATED VOTING</span> Your participation record and anonymous simulated ballot are stored in separate MySQL tables.</div>
+    <div class="kpi-grid">
+      <div class="kpi"><div class="kpi-bar" style="background:#2855D9"></div><div class="kpi-val" style="font-size:20px;">${esc(v.voterCode)}</div><div class="kpi-lbl">Voter ID</div></div>
+      <div class="kpi"><div class="kpi-bar" style="background:#17A6A1"></div><div class="kpi-val" style="font-size:20px;">${esc(v.constituencyName)}</div><div class="kpi-lbl">Constituency</div></div>
+      <div class="kpi"><div class="kpi-bar" style="background:#16A36A"></div><div class="kpi-val" style="font-size:20px;">${badge(v.verificationStatus)}</div><div class="kpi-lbl">Verification Status</div></div>
+      <div class="kpi"><div class="kpi-bar" style="background:#6366F1"></div><div class="kpi-val">${data.participationHistory.length}</div><div class="kpi-lbl">Elections Participated</div></div>
+    </div>
+    <div class="card">
+      <h3>Your Eligible Simulated Elections</h3>
+      <table><thead><tr><th>Code</th><th>Election Name</th><th>Window</th><th>Status</th><th>Participation</th><th>Action</th></tr></thead>
+      <tbody>${data.eligibleElections.map(e => `<tr>
+        <td>${esc(e.code)}</td><td><strong>${esc(e.name)}</strong><br><small style="color:var(--muted)">${esc(e.description)}</small></td>
+        <td>${esc(e.startDateTime)} → ${esc(e.endDateTime)}</td><td>${badge(e.status)}</td>
+        <td>${e.hasVoted ? badge('SUBMITTED') : badge('NOT VOTED')}</td>
+        <td>${e.status==='OPEN' && !e.hasVoted
+            ? `<button class="btn btn-success btn-sm" onclick="openVotingBooth(${e.id}, '${esc(e.name).replace(/'/g,"\\'")}')">Cast Simulated Vote</button>`
+            : e.status==='PUBLISHED' ? `<button class="btn btn-primary btn-sm" onclick="nav('results')">View Results</button>` : '—'}</td>
+      </tr>`).join('')}</tbody></table>
+    </div>
+    <div class="card">
+      <h3>Participation History (Candidate Selection Is Never Stored Here)</h3>
+      <table><thead><tr><th>Election Code</th><th>Election Name</th><th>Recorded At</th><th>Status</th></tr></thead>
+      <tbody>${data.participationHistory.length ? data.participationHistory.map(p => `<tr><td>${esc(p.electionCode)}</td><td>${esc(p.electionName)}</td><td>${esc(p.submittedAt)}</td><td>${badge(p.status)}</td></tr>`).join('') : '<tr><td colspan="4" style="color:var(--muted)">No participation recorded yet.</td></tr>'}</tbody></table>
+    </div>`;
+}
+
+async function openVotingBooth(electionId, electionName) {
+  selectedCandidateId = null;
+  setHeader('Simulated Voting Booth', electionName, 'voter_dashboard');
+  const cands = await api(`/api/voting/${electionId}/candidates`);
+  document.getElementById('mainContent').innerHTML = `
+    <div class="demo-banner"><span class="demo-tag">ANONYMOUS SIMULATION</span> Select one eligible candidate for your constituency. Once submitted, your vote cannot be changed or cast again.</div>
+    <div class="card">
+      <h3>${esc(electionName)} — Eligible Candidates</h3>
+      <div id="voteMsg"></div>
+      <div id="ballotCards">${cands.map(c => `
+        <div class="ballot-card" id="bc_${c.id}" onclick="selectCand(${c.id})">
+          <input type="radio" name="candChoice" id="rb_${c.id}" style="width:auto;margin-top:4px;">
+          <div>
+            <strong>${esc(c.fullName)}</strong> ${badge(c.partyCode)} <span style="color:var(--muted)">${esc(c.partyName)}</span>
+            <p style="font-size:12.5px;color:#475569;margin-top:4px;">${esc(c.profileDescription)}</p>
+          </div>
+        </div>`).join('')}</div>
+      <div class="row" style="justify-content:space-between;margin-top:16px;">
+        <button class="btn btn-secondary" onclick="nav('voter_dashboard')">← Back to Dashboard</button>
+        <button class="btn btn-success" onclick="submitVote(${electionId})">Confirm & Submit Simulated Ballot</button>
+      </div>
+    </div>`;
+}
+
+function selectCand(id) {
+  selectedCandidateId = id;
+  document.querySelectorAll('.ballot-card').forEach(el => el.classList.remove('selected'));
+  document.getElementById('bc_' + id).classList.add('selected');
+  document.getElementById('rb_' + id).checked = true;
+}
+
+async function submitVote(electionId) {
+  if (!selectedCandidateId) { alert('Please select a candidate first.'); return; }
+  if (!confirm('Confirm simulated ballot submission? Once recorded, this action is final and anonymous.')) return;
+  try {
+    const r = await api(`/api/voting/${electionId}/cast`, { method:'POST', body: JSON.stringify({candidateId: String(selectedCandidateId)}) });
+    document.getElementById('mainContent').innerHTML = `
+      <div class="card" style="max-width:620px;">
+        <div class="alert alert-ok">Simulated Ballot Submitted Successfully</div>
+        <p style="line-height:1.8;font-size:14px;">
+          <strong>Confirmation Code:</strong> ${esc(r.confirmationCode)}<br>
+          <strong>Election:</strong> ${esc(r.electionName)}<br>
+          <strong>Recorded At:</strong> ${esc(r.submittedAt)}
+        </p>
+        <p style="margin-top:12px;color:var(--muted);font-size:13px;">${esc(r.message)}</p>
+        <button class="btn btn-primary" style="margin-top:16px;" onclick="nav('voter_dashboard')">Return to Voter Dashboard</button>
+      </div>`;
+  } catch (e) {
+    document.getElementById('voteMsg').innerHTML = `<div class="alert alert-err">${esc(e.message)}</div>`;
+  }
+}
+
+async function renderVoters() {
+  setHeader('Voter Management', 'Approve, reject, suspend, or reactivate fictional demo voters', 'voters');
+  const list = await api('/api/voters');
+  document.getElementById('mainContent').innerHTML = `
+    <div class="card">
+      <div class="row" style="justify-content:space-between;margin-bottom:12px;">
+        <h3>Registered Fictional Voters (${list.length})</h3>
+        <div class="row">
+          <a class="btn btn-secondary btn-sm" href="/api/reports?type=VOTER_REGISTRATION&format=csv">Export CSV</a>
+          <a class="btn btn-accent btn-sm" href="/api/reports?type=VOTER_REGISTRATION&format=pdf">Export PDF</a>
+        </div>
+      </div>
+      <table><thead><tr><th>Voter ID</th><th>Full Name</th><th>Username</th><th>Constituency</th><th>Verification</th><th>Account</th><th>Actions</th></tr></thead>
+      <tbody>${list.map(v => `<tr>
+        <td>${esc(v.voterCode)}</td><td><strong>${esc(v.fullName)}</strong><br><small style="color:var(--muted)">${esc(v.email)}</small></td>
+        <td>${esc(v.username)}</td><td>${esc(v.constituencyName)}</td><td>${badge(v.verificationStatus)}</td><td>${badge(v.accountStatus)}</td>
+        <td class="row">
+          <button class="btn btn-success btn-sm" onclick="voterAct(${v.id},'approve')">Approve</button>
+          <button class="btn btn-warning btn-sm" onclick="voterAct(${v.id},'reject')">Reject</button>
+          ${v.accountStatus==='ACTIVE'
+            ? `<button class="btn btn-danger btn-sm" onclick="voterAct(${v.id},'suspend')">Suspend</button>`
+            : `<button class="btn btn-accent btn-sm" onclick="voterAct(${v.id},'reactivate')">Reactivate</button>`}
+        </td>
+      </tr>`).join('')}</tbody></table>
+    </div>`;
+}
+async function voterAct(id, act) {
+  await api(`/api/voters/${id}/${act}`, { method:'POST' });
+  renderVoters();
+}
+
+async function renderCandidates() {
+  setHeader('Candidate Management', 'Fictional candidates and approval statuses', 'candidates');
+  const list = await api('/api/candidates');
+  document.getElementById('mainContent').innerHTML = `
+    <div class="card"><h3>Candidates (${list.length})</h3>
+    <table><thead><tr><th>Code</th><th>Name</th><th>Age</th><th>Fictional Party</th><th>Constituency</th><th>Status</th><th>Actions</th></tr></thead>
+    <tbody>${list.map(c => `<tr>
+      <td>${esc(c.code)}</td><td><strong>${esc(c.fullName)}</strong></td><td>${c.age}</td>
+      <td>${esc(c.partyName)} (${esc(c.partyCode)})</td><td>${esc(c.constituencyName)}</td><td>${badge(c.status)}</td>
+      <td class="row">
+        <button class="btn btn-success btn-sm" onclick="candAct(${c.id},'approve')">Approve</button>
+        <button class="btn btn-warning btn-sm" onclick="candAct(${c.id},'reject')">Reject</button>
+      </td>
+    </tr>`).join('')}</tbody></table></div>`;
+}
+async function candAct(id, act) { await api(`/api/candidates/${id}/${act}`, {method:'POST'}); renderCandidates(); }
+
+async function renderParties() {
+  setHeader('Party Management', 'Active simulation political parties (10 designated parties)', 'parties');
+  const list = await api('/api/parties');
+  document.getElementById('mainContent').innerHTML = `
+    <div class="card"><h3>Registered Parties (${list.length})</h3>
+    <table><thead><tr><th>Code</th><th>Party Name</th><th>Description</th><th>Candidates</th><th>Status</th></tr></thead>
+    <tbody>${list.map(p => `<tr><td>${badge(p.code)}</td><td><strong>${esc(p.name)}</strong></td><td>${esc(p.description)}</td><td>${p.candidateCount}</td><td>${badge(p.status)}</td></tr>`).join('')}</tbody></table></div>`;
+}
+
+async function renderConstituencies() {
+  setHeader('Constituency Management', 'Fictional districts with live voter and candidate counts', 'constituencies');
+  const list = await api('/api/constituencies');
+  document.getElementById('mainContent').innerHTML = `
+    <div class="card"><h3>Constituencies (${list.length})</h3>
+    <table><thead><tr><th>Code</th><th>Name</th><th>City</th><th>State</th><th>Voters</th><th>Candidates</th><th>Status</th></tr></thead>
+    <tbody>${list.map(c => `<tr><td>${esc(c.code)}</td><td><strong>${esc(c.name)}</strong></td><td>${esc(c.city)}</td><td>${esc(c.state)}</td><td>${c.voterCount}</td><td>${c.candidateCount}</td><td>${badge(c.status)}</td></tr>`).join('')}</tbody></table></div>`;
+}
+
+async function renderElections() {
+  setHeader('Election Management', 'Lifecycle transitions: DRAFT → SCHEDULED → OPEN → CLOSED → PUBLISHED', 'elections');
+  const list = await api('/api/elections');
+  document.getElementById('mainContent').innerHTML = `
+    <div class="card"><h3>Simulated Elections (${list.length})</h3>
+    <div id="elMsg"></div>
+    <table><thead><tr><th>Code</th><th>Election</th><th>Window</th><th>Const / Cand / Votes</th><th>Status</th><th>Lifecycle Actions</th></tr></thead>
+    <tbody>${list.map(e => `<tr>
+      <td>${esc(e.code)}</td><td><strong>${esc(e.name)}</strong><br><small style="color:var(--muted)">${esc(e.type)}</small></td>
+      <td>${esc(e.startDateTime)} → ${esc(e.endDateTime)}</td>
+      <td>${e.constituencyCount} / ${e.candidateCount} / ${e.totalParticipants}</td><td>${badge(e.status)}</td>
+      <td class="row">
+        ${e.status==='DRAFT' ? `<button class="btn btn-secondary btn-sm" onclick="elAct(${e.id},'schedule')">Schedule</button>` : ''}
+        ${e.status==='SCHEDULED' ? `<button class="btn btn-success btn-sm" onclick="elAct(${e.id},'open')">Open</button>` : ''}
+        ${e.status==='OPEN' ? `<button class="btn btn-warning btn-sm" onclick="elAct(${e.id},'close')">Close</button>` : ''}
+        ${e.status==='CLOSED' ? `<button class="btn btn-primary btn-sm" onclick="elAct(${e.id},'publish')">Publish</button>` : ''}
+        ${e.status==='PUBLISHED' ? `<button class="btn btn-accent btn-sm" onclick="nav('results')">View Results</button>` : ''}
+      </td>
+    </tr>`).join('')}</tbody></table></div>`;
+}
+async function elAct(id, act) {
+  if (!confirm(`Confirm election transition: ${act.toUpperCase()}?`)) return;
+  try { await api(`/api/elections/${id}/${act}`, {method:'POST'}); renderElections(); }
+  catch (e) { document.getElementById('elMsg').innerHTML = `<div class="alert alert-err">${esc(e.message)}</div>`; }
+}
+
+async function renderResults() {
+  setHeader('Results Dashboard', 'Aggregated simulated vote totals from anonymous_ballots', 'results');
+  const elections = await api('/api/results/elections');
+  if (!elections.length) {
+    document.getElementById('mainContent').innerHTML = '<div class="card">No closed or published election results available yet.</div>';
+    return;
+  }
+  document.getElementById('mainContent').innerHTML = `
+    <div class="demo-banner"><span class="demo-tag">SIMULATED RESULTS</span> Calculated live from anonymous_ballots via SQL aggregation.</div>
+    <div class="card row">
+      <label style="font-weight:600;">Select Election:</label>
+      <select id="resSel" style="max-width:420px;" onchange="loadResultDetail(this.value)">
+        ${elections.map(e => `<option value="${e.id}">${esc(e.code)} — ${esc(e.name)} [${esc(e.status)}]</option>`).join('')}
+      </select>
+    </div>
+    <div id="resBody"></div>`;
+  loadResultDetail(elections[0].id);
+}
+
+async function loadResultDetail(id) {
+  const s = await api(`/api/results/${id}`);
+  const candMap = {};
+  s.candidateResults.forEach(c => candMap[`${c.candidateName} (${c.partyCode}) — ${c.constituencyName}`] = c.voteCount);
+  const partyMap = {};
+  (s.partyResults || []).forEach(p => partyMap[`${p.partyName} (${p.partyCode})`] = p.totalVotes);
+
+  document.getElementById('resBody').innerHTML = `
+    ${s.leadingPartySummary ? `<div class="demo-banner" style="background:#e8f5e9;border-left:4px solid #16a36a;color:#1b5e20;margin-bottom:16px;"><strong>Leading Party:</strong> ${esc(s.leadingPartySummary)}</div>` : ''}
+    <div class="kpi-grid" style="margin-bottom:16px;">
+      <div class="kpi"><div class="kpi-bar" style="background:#16A36A"></div><div class="kpi-val" style="font-size:20px;">${s.published?'PUBLISHED':'CLOSED'}</div><div class="kpi-lbl">Publication Status</div></div>
+      <div class="kpi"><div class="kpi-bar" style="background:#2855D9"></div><div class="kpi-val">${s.totalEligibleVoters}</div><div class="kpi-lbl">Eligible Voters</div></div>
+      <div class="kpi"><div class="kpi-bar" style="background:#17A6A1"></div><div class="kpi-val">${s.totalBallotsCast}</div><div class="kpi-lbl">Simulated Ballots</div></div>
+      <div class="kpi"><div class="kpi-bar" style="background:#6366F1"></div><div class="kpi-val">${s.turnoutPercentage.toFixed(2)}%</div><div class="kpi-lbl">Turnout</div></div>
+    </div>
+    <div class="grid-2">
+      ${barChartHtml('Simulated Vote Tally by Party', partyMap)}
+      ${barChartHtml('Simulated Vote Tally by Candidate', candMap)}
+    </div>
+    <div class="card" style="margin-top:16px;">
+      <h3>Party-Wise Simulated Vote Totals & Standings</h3>
+      <table>
+        <thead><tr><th>Party Name</th><th>Code</th><th>Candidates Fielded</th><th>Total Simulated Votes</th><th>Vote Share</th><th>Standing</th></tr></thead>
+        <tbody>
+          ${(s.partyResults || []).map(p => `<tr>
+            <td><strong>${esc(p.partyName)}</strong></td>
+            <td>${badge(p.partyCode)}</td>
+            <td>${p.candidateCount}</td>
+            <td><strong>${p.totalVotes}</strong></td>
+            <td>${p.votePercentage.toFixed(2)}%</td>
+            <td>${p.isTiedForLead ? `<span class="badge" style="background:#fef3c7;color:#92400e;">TIED FOR LEAD</span>` : (p.isLeading ? `<span class="badge" style="background:#d1fae5;color:#065f46;">LEADING</span>` : `<span class="badge" style="background:#f1f5f9;color:#475569;">PARTICIPATING</span>`)}</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+    <div class="card" style="margin-top:16px;">
+      <h3>Candidate-Wise Simulated Results</h3>
+      <table><thead><tr><th>Constituency</th><th>Candidate</th><th>Party</th><th>Simulated Votes</th><th>Constituency Share</th></tr></thead>
+      <tbody>${s.candidateResults.map(c => `<tr><td>${esc(c.constituencyName)}</td><td><strong>${esc(c.candidateName)}</strong></td><td>${badge(c.partyCode)} ${esc(c.partyName)}</td><td><strong>${c.voteCount}</strong></td><td>${c.percentage.toFixed(2)}%</td></tr>`).join('')}</tbody></table>
+    </div>
+    <div class="card" style="margin-top:16px;"><h3>Constituency Breakdown</h3>
+      <table><thead><tr><th>Code</th><th>Constituency</th><th>Eligible</th><th>Ballots</th><th>Turnout</th><th>Leading Candidate</th></tr></thead>
+      <tbody>${s.constituencyResults.map(cr => `<tr><td>${esc(cr.constituencyCode)}</td><td><strong>${esc(cr.constituencyName)}</strong></td><td>${cr.eligibleVoters}</td><td>${cr.totalBallots}</td><td>${cr.turnoutPercentage.toFixed(2)}%</td><td>${esc(cr.leadingCandidateName)}</td></tr>`).join('')}</tbody></table>
+    </div>`;
+}
+
+async function renderReports() {
+  setHeader('Reports & Exports', 'All 11 administrative reports with watermarked PDF and formula-safe CSV downloads', 'reports');
+  const types = [
+    ['VOTER_REGISTRATION','Voter Registration Report'],['APPROVED_VOTERS','Approved Voter Report'],
+    ['PENDING_REGISTRATIONS','Pending Registration Report'],['CANDIDATE_DIRECTORY','Candidate Report'],
+    ['PARTY_DIRECTORY','Fictional Party Report'],['CONSTITUENCY_SUMMARY','Constituency Report'],
+    ['ELECTION_SCHEDULE','Election Schedule Report'],['ELECTION_STATUS','Election Status Report'],
+    ['SIMULATED_PARTICIPATION','Simulated Participation Report'],['PUBLISHED_RESULTS','Published Election Result Report'],
+    ['AUDIT_LOG','Audit Log Report']
+  ];
+  document.getElementById('mainContent').innerHTML = `
+    <div class="card row">
+      <select id="repType" style="max-width:300px;" onchange="loadReportPreview()">
+        ${types.map(([k,v]) => `<option value="${k}">${v}</option>`).join('')}
+      </select>
+      <button class="btn btn-primary" onclick="loadReportPreview()">Preview</button>
+      <button class="btn btn-secondary" onclick="dlReport('csv')">Download CSV</button>
+      <button class="btn btn-accent" onclick="dlReport('pdf')">Download PDF</button>
+    </div>
+    <div id="repPreview" class="card"></div>`;
+  loadReportPreview();
+}
+async function loadReportPreview() {
+  const t = document.getElementById('repType').value;
+  const r = await api(`/api/reports?type=${t}`);
+  document.getElementById('repPreview').innerHTML = `<h3>${esc(r.title)} (${r.rows.length} rows)</h3>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">${esc(r.watermark)}</p>
+    <table><thead><tr>${r.headers.map(h=>`<th>${esc(h)}</th>`).join('')}</tr></thead>
+    <tbody>${r.rows.map(row=>`<tr>${row.map(c=>`<td>${esc(c)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+}
+function dlReport(fmt) {
+  const t = document.getElementById('repType').value;
+  window.location.href = `/api/reports?type=${t}&format=${fmt}`;
+}
+
+async function renderAudit() {
+  setHeader('Audit Logs', 'Immutable security and governance activity trail', 'audit');
+  const list = await api('/api/audit');
+  document.getElementById('mainContent').innerHTML = `
+    <div class="card"><h3>Latest Audit Events (${list.length})</h3>
+    <table><thead><tr><th>ID</th><th>Timestamp</th><th>Actor</th><th>Module</th><th>Action</th><th>Details</th><th>Status</th></tr></thead>
+    <tbody>${list.map(a => `<tr><td>${a.id}</td><td>${esc(a.timestamp)}</td><td>${esc(a.username)}</td><td>${esc(a.module)}</td><td>${esc(a.action)}</td><td>${esc(a.details)}</td><td>${badge(a.status)}</td></tr>`).join('')}</tbody></table></div>`;
+}
+
+async function renderSettings() {
+  setHeader('Settings & Administrators', 'Super Admin system configuration and admin accounts', 'settings');
+  const d = await api('/api/settings');
+  document.getElementById('mainContent').innerHTML = `
+    <div class="card"><h3>Administrator Accounts</h3>
+    <table><thead><tr><th>Username</th><th>Full Name</th><th>Email</th><th>Role</th><th>Status</th></tr></thead>
+    <tbody>${d.admins.map(a => `<tr><td>${esc(a.username)}</td><td>${esc(a.fullName)}</td><td>${esc(a.email)}</td><td>${badge(a.role)}</td><td>${badge(a.status)}</td></tr>`).join('')}</tbody></table></div>
+    <div class="card"><h3>Application Settings (MySQL application_settings)</h3>
+    <table><thead><tr><th>Key</th><th>Value</th><th>Description</th></tr></thead>
+    <tbody>${d.settings.map(s => `<tr><td><code>${esc(s.key)}</code></td><td><strong>${esc(s.value)}</strong></td><td>${esc(s.description)}</td></tr>`).join('')}</tbody></table></div>`;
+}
+
+async function renderChangePassword() {
+  setHeader('Change Password', 'Update your personal account credentials (must be exactly 6 characters)', 'change_password');
+  document.getElementById('mainContent').innerHTML = `
+    <div style="max-width: 480px; margin: 10px auto;">
+      <div class="card" style="padding: 30px;">
+        <h3 style="font-size: 18px; margin-bottom: 6px; color: #1E293B;">Change Password</h3>
+        <p style="font-size: 13px; color: var(--muted); margin-bottom: 20px;">
+          Security Policy: Your password must contain <strong>exactly 6 characters</strong>.
+        </p>
+
+        <div id="cpAlert" class="alert alert-err hidden"></div>
+        <div id="cpSuccess" class="alert alert-ok hidden"></div>
+
+        <form id="changePassForm" onsubmit="doChangePassword(event)">
+          <div class="form-group">
+            <label for="cpCurrent">Current Password</label>
+            <div class="input-wrapper">
+              <input id="cpCurrent" type="password" placeholder="Enter current password" autocomplete="current-password" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="cpNew">New Password</label>
+            <div class="input-wrapper">
+              <input id="cpNew" type="password" placeholder="Enter new 6-character password" maxlength="6" autocomplete="new-password" required>
+            </div>
+            <small style="color: var(--muted); font-size: 11.5px; display: block; margin-top: 4px;">Must contain exactly 6 characters.</small>
+          </div>
+
+          <div class="form-group">
+            <label for="cpConfirm">Confirm New Password</label>
+            <div class="input-wrapper">
+              <input id="cpConfirm" type="password" placeholder="Confirm new 6-character password" maxlength="6" autocomplete="new-password" required>
+            </div>
+          </div>
+
+          <div style="margin: 12px 0 20px 0;">
+            <label style="display: inline-flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer; color: #475569; user-select: none;">
+              <input type="checkbox" id="cpToggleShow" onchange="toggleChangePassVisibility()" style="width: 16px; height: 16px; accent-color: var(--primary);">
+              <span>Show / Hide Passwords</span>
+            </label>
+          </div>
+
+          <button type="submit" id="cpSubmitBtn" class="btn btn-primary" style="padding: 10px 20px; width: 100%; justify-content: center;">
+            <span id="cpBtnText">Change Password</span>
+          </button>
+        </form>
+      </div>
+    </div>`;
+}
+
+function toggleChangePassVisibility() {
+  const show = document.getElementById('cpToggleShow').checked;
+  const type = show ? 'text' : 'password';
+  document.getElementById('cpCurrent').type = type;
+  document.getElementById('cpNew').type = type;
+  document.getElementById('cpConfirm').type = type;
+}
+
+async function doChangePassword(event) {
+  if (event) event.preventDefault();
+  const alertEl = document.getElementById('cpAlert');
+  const successEl = document.getElementById('cpSuccess');
+  const btn = document.getElementById('cpSubmitBtn');
+  const btnText = document.getElementById('cpBtnText');
+
+  alertEl.classList.add('hidden');
+  successEl.classList.add('hidden');
+
+  const cp = document.getElementById('cpCurrent').value;
+  const np = document.getElementById('cpNew').value;
+  const cnp = document.getElementById('cpConfirm').value;
+
+  if (!cp) {
+    alertEl.textContent = 'Current password is required.';
+    alertEl.classList.remove('hidden');
+    return;
+  }
+  if (!np || np.length !== 6) {
+    alertEl.textContent = 'Password must contain exactly 6 characters.';
+    alertEl.classList.remove('hidden');
+    return;
+  }
+  if (np !== cnp) {
+    alertEl.textContent = 'New password and confirmation do not match.';
+    alertEl.classList.remove('hidden');
+    return;
+  }
+  if (cp === np) {
+    alertEl.textContent = 'New password must differ from your current password.';
+    alertEl.classList.remove('hidden');
+    return;
+  }
+
+  btn.disabled = true;
+  btnText.innerHTML = '<span class="spinner-icon"></span> Updating...';
+
+  try {
+    const res = await api('/api/auth/change-password', {
+      method: 'POST',
+      body: JSON.stringify({ currentPassword: cp, newPassword: np, confirmPassword: cnp })
+    });
+    successEl.textContent = res.message || 'Password updated successfully.';
+    successEl.classList.remove('hidden');
+    document.getElementById('cpCurrent').value = '';
+    document.getElementById('cpNew').value = '';
+    document.getElementById('cpConfirm').value = '';
+  } catch (err) {
+    alertEl.textContent = err.message || 'Failed to update password.';
+    alertEl.classList.remove('hidden');
+  } finally {
+    btn.disabled = false;
+    btnText.textContent = 'Change Password';
+  }
+}
+
+document.getElementById('loginPass').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+api('/api/auth/me').then(me => { if (me.authenticated) { currentUser = me; enterApp(); } }).catch(()=>{});
+</script>
+</body>
+</html>
